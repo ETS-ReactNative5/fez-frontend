@@ -427,7 +427,7 @@ mock.onGet(routes.CURRENT_ACCOUNT_API().apiUrl)
     .reply(200, { ...journalsSearch.favourites })
     .onPost(new RegExp(escapeRegExp(routes.JOURNAL_FAVOURITES_API().apiUrl)))
     .reply(200)
-    .onPost(new RegExp(escapeRegExp(routes.JOURNAL_FAVOURITES_API({ append: 'delete' }).apiUrl)))
+    .onDelete(new RegExp(escapeRegExp(routes.JOURNAL_FAVOURITES_API().apiUrl)))
     .reply(200)
     .onGet(new RegExp(escapeRegExp(routes.JOURNAL_SEARCH_API({}).apiUrl)))
     .reply(config => {
@@ -438,8 +438,8 @@ mock.onGet(routes.CURRENT_ACCOUNT_API().apiUrl)
                 'Exported',
                 { 'content-type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' },
             ];
-        } else if (config.params.title?.includes('Biological')) {
-            let maxCount = config.params.title?.includes('Glycobiology') ? 4 : 8;
+        } else if (config.params.title?.includes('biological')) {
+            let maxCount = config.params.title?.includes('glycobiology') ? 4 : 8;
             if (config.params.filters && config.params.filters[facets].length > 0) maxCount /= 2;
             const data = mockData.journalList.data.filter((element, index) => index < maxCount);
             return [200, { ...mockData.journalList, ...{ data }, ...{ total: maxCount } }];
