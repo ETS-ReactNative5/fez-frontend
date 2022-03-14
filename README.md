@@ -12,8 +12,16 @@ UQ's branding for Fez is UQ eSpace.
 - Legacy eSpace application <https://espace.library.uq.edu.au/>
 - eSpace production <https://espace.library.uq.edu.au/dashboard>
 - eSpace staging <https://fez-staging.library.uq.edu.au/dashboard>
-- eSpace prodtest <https://fez-testing.library.uq.edu.au/dashboard>
+- eSpace prodtest <https://fez-testing.library.uq.edu.au/dashboard> (see notes below)
 - Current build <https://development.library.uq.edu.au/espace/master> (or your feature branch)
+
+### IMPORTANT NOTE
+
+**eSpace prodtest is a production environment**
+
+This means that it's exactly like production, except for the git branch that uses. This is useful for **carefully*** testing anything that might break production before pushing to the actual branch.
+
+***carefully**: any actions (e.g. creating, editing, deleting records) performed in eSpace prodtest will result in changes to production. This includes **email notifications, 3rd party services integrations and everything else**.   
 
 ## Technology
 
@@ -337,8 +345,6 @@ If you want Codebuild to run cypress tests before you merge to master, include t
 When running ```npm test``` and related scripts natively in linux (without using a VM), jest can be quite demanding making the OS unresponsive.
 
 One way to avoid this is to restrict the number of CPU cores through jest's [--maxWorkers](https://jestjs.io/docs/cli#--maxworkersnumstring) option.
-
-You can either use ```test:cpu-restricted``` or the following if additional options are required:
 
 ```bash
 NODE_ENV=test FULL_PATH=http://localhost node --expose-gc ./node_modules/.bin/jest --logHeapUsage --maxWorkers=50%
