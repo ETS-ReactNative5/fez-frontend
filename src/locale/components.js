@@ -948,6 +948,7 @@ export default {
                         contributionStatementInputFieldLabel: 'Creator research statement',
                         contributionStatementFieldHint: 'Enter description',
                         addButtonLabel: 'ADD SCALE/SIGNIFICANCE AND RESEARCH STATEMENT',
+                        updateButtonLabel: 'UPDATE SCALE/SIGNIFICANCE AND RESEARCH STATEMENT',
                         authorOrderAlert: {
                             message:
                                 'Any changes made to the author order require that all contribution statements are also manually updated to match.',
@@ -960,6 +961,7 @@ export default {
                         nameColumn: 'Scale/significance of work - Creator research statement',
                         reorderColumn: 'Reorder items',
                         deleteAll: 'Remove all items',
+                        editHint: 'Edit items',
                         deleteAllConfirmation: {
                             confirmationTitle: 'Delete all',
                             confirmationMessage: 'Are you sure you want to delete all items?',
@@ -973,6 +975,7 @@ export default {
                         moveUpHint: 'Move item up the order',
                         moveDownHint: 'Move item down the order',
                         deleteHint: 'Remove this item',
+                        editHint: 'Edit this item',
                         deleteRecordConfirmation: {
                             confirmationTitle: 'Delete item',
                             confirmationMessage: 'Are you sure you want to delete this item?',

@@ -1,26 +1,17 @@
 /* eslint-disable max-len */
 import Immutable from 'immutable';
-import { validation, DATASET_ACCESS_CONDITIONS_OPTIONS } from 'config';
+import { DATASET_ACCESS_CONDITIONS_OPTIONS, validation } from 'config';
 import locale from 'locale/components';
 import {
+    AIATSIS_CODES_VOCAB_ID,
     ALL_LICENCES,
     ALTERNATE_GENRE,
     ANDS_COLLECTION_TYPE_OPTIONS,
+    FIELD_OF_RESEARCH_VOCAB_ID,
     INSTITUTIONAL_STATUS,
     LANGUAGE,
     OA_STATUS,
     OA_STATUS_TYPE,
-    PUBMED_DOC_TYPES,
-    QUALITY_INDICATORS,
-    REFEREED_SOURCES,
-    SCOPUS_DOC_TYPES,
-    WOS_DOC_TYPES,
-} from 'config/general';
-import { selectFields } from 'locale/selectFields';
-import { default as formLocale } from 'locale/publicationForm';
-import {
-    AIATSIS_CODES_VOCAB_ID,
-    FIELD_OF_RESEARCH_VOCAB_ID,
     PUBLICATION_TYPE_AUDIO_DOCUMENT,
     PUBLICATION_TYPE_BOOK,
     PUBLICATION_TYPE_BOOK_CHAPTER,
@@ -39,7 +30,14 @@ import {
     PUBLICATION_TYPE_RESEARCH_REPORT,
     PUBLICATION_TYPE_THESIS,
     PUBLICATION_TYPE_VIDEO_DOCUMENT,
+    PUBMED_DOC_TYPES,
+    QUALITY_INDICATORS,
+    REFEREED_SOURCES,
+    SCOPUS_DOC_TYPES,
+    WOS_DOC_TYPES,
 } from 'config/general';
+import { selectFields } from 'locale/selectFields';
+import { default as formLocale } from 'locale/publicationForm';
 
 import { AttachedFilesField } from 'modules/SharedComponents/Toolbox/AttachedFilesField';
 import { AudienceSizeField } from 'modules/SharedComponents/Toolbox/AudienceSizeField';
@@ -48,8 +46,8 @@ import {
     CollectionField,
     FieldOfResearchListField,
     JournalIdField,
-    OrgUnitNameField,
     OrgNameField,
+    OrgUnitNameField,
     RelatedDatasetAndPublicationListField,
     SeriesField,
 } from 'modules/SharedComponents/LookupFields';
@@ -65,16 +63,16 @@ import { HerdcCodeField } from 'modules/SharedComponents/Toolbox/HerdcCodeField'
 import { HerdcStatusField } from 'modules/SharedComponents/Toolbox/HerdcStatusField';
 import {
     IssnForm,
+    IssnRowItemTemplate,
+    KeywordsForm,
     LinkInfoListEditorField,
     ListEditorField,
     NewListEditorField,
-    KeywordsForm,
     ScaleOfSignificanceListEditorField,
 } from 'modules/SharedComponents/Toolbox/ListEditor';
 import { PublicationSubtypeField } from 'modules/SharedComponents/PublicationSubtype';
 import { RichEditorField } from 'modules/SharedComponents/RichEditor';
 import { TextField as GenericTextField } from 'modules/SharedComponents/Toolbox/TextField';
-import { IssnRowItemTemplate } from 'modules/SharedComponents/Toolbox/ListEditor';
 import { NewGenericSelectField } from 'modules/SharedComponents/GenericSelectField';
 
 export default {
@@ -954,6 +952,7 @@ export default {
                 label: 'Scale/significance of work - Contribution statement',
                 placeholder: '',
                 locale: locale.components.scaleOfSignificanceListAdminForm.field,
+                canEdit: true,
             },
         },
         qualityIndicators: {

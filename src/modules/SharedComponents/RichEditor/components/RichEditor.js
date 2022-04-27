@@ -46,7 +46,10 @@ export default class RichEditor extends PureComponent {
 
         !!this.editorInstance && (this.editorInstance.id = `${this.props.richEditorId}-editor`);
         !!this.editorInstance && (this.editorInstance.name = `${this.props.richEditorId}-editor`);
-        !!this.editorInstance && !!this.props.value && this.editorInstance.setData(this.props.value.get('htmlText'));
+        const value = this.props.value?.get ? this.props.value?.get('htmlText') : this.props.value.htmlText;
+        if (value) {
+            this.editorInstance.setData(value);
+        }
 
         !!this.editorInstance && (this.editorInstance.id = `${this.props.richEditorId}-editor`);
         !!this.editorInstance && (this.editorInstance.name = `${this.props.richEditorId}-editor`);
@@ -59,6 +62,12 @@ export default class RichEditor extends PureComponent {
 
     // eslint-disable-next-line camelcase
     UNSAFE_componentWillReceiveProps(nextProps) {
+        const currentValue = this.props.value?.get ? this.props.value?.get('htmlText') : this.props.value.htmlText;
+        const value = nextProps.value?.get ? nextProps.value?.get('htmlText') : nextProps.value.htmlText;
+        if (currentValue !== value) {
+            this.editorInstance.setData(value);
+            this.setState({ value: nextProps.value });
+        }
         if (nextProps.disabled !== this.props.disabled && this.editorInstance !== null) {
             this.editorInstance.setReadOnly(!!nextProps.disabled);
         }
