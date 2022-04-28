@@ -1019,29 +1019,8 @@ exports[`RichEditor should render error as one child 1`] = `
                       Array [
                         "This is test value",
                       ],
-                      Array [
-                        undefined,
-                      ],
-                      Array [
-                        undefined,
-                      ],
-                      Array [
-                        undefined,
-                      ],
                     ],
                     "results": Array [
-                      Object {
-                        "type": "return",
-                        "value": undefined,
-                      },
-                      Object {
-                        "type": "return",
-                        "value": undefined,
-                      },
-                      Object {
-                        "type": "return",
-                        "value": undefined,
-                      },
                       Object {
                         "type": "return",
                         "value": undefined,
@@ -1736,22 +1715,8 @@ exports[`RichEditor should render error as react children 1`] = `
                       Array [
                         "This is test value",
                       ],
-                      Array [
-                        undefined,
-                      ],
-                      Array [
-                        undefined,
-                      ],
                     ],
                     "results": Array [
-                      Object {
-                        "type": "return",
-                        "value": undefined,
-                      },
-                      Object {
-                        "type": "return",
-                        "value": undefined,
-                      },
                       Object {
                         "type": "return",
                         "value": undefined,
@@ -2452,15 +2417,8 @@ exports[`RichEditor should render error showing input length 1`] = `
                       Array [
                         "This is test value",
                       ],
-                      Array [
-                        undefined,
-                      ],
                     ],
                     "results": Array [
-                      Object {
-                        "type": "return",
-                        "value": undefined,
-                      },
                       Object {
                         "type": "return",
                         "value": undefined,
