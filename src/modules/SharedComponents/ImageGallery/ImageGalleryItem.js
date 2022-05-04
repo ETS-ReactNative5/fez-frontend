@@ -4,14 +4,16 @@ import PropTypes from 'prop-types';
 
 import ImageListItem from '@material-ui/core/ImageListItem';
 import ImageListItemBar from '@material-ui/core/ImageListItemBar';
+import txt from 'locale/components';
+import { useHistory } from 'react-router';
+
+import { makeStyles } from '@material-ui/core/styles';
+import Tooltip from '@material-ui/core/Tooltip';
+import ErrorOutlineOutlinedIcon from '@material-ui/icons/ErrorOutlineOutlined';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 
 import { default as config } from 'config/imageGalleryConfig';
 import ImageGalleryItemImage from './ImageGalleryItemImage';
-
-import { pathConfig } from 'config/pathConfig';
-// import { ExternalLink } from 'modules/SharedComponents/ExternalLink';
-import { Link } from 'react-router-dom';
-import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles(theme => ({
     imageListItemRoot: {
@@ -27,6 +29,9 @@ const useStyles = makeStyles(theme => ({
     },
     imageListItemItem: {
         backgroundColor: '#51247a',
+    },
+    imageListItemWithLink: {
+        cursor: 'pointer',
     },
     imageListItemBarRoot: {
         height: '67px',
@@ -57,17 +62,39 @@ const useStyles = makeStyles(theme => ({
             minHeight: '150px',
         },
     },
+    titleBar: {
+        background: 'none',
+        height: '30px',
+    },
+    icon: {
+        color: 'white',
+        filter: 'drop-shadow(0px 0px 5px rgba(0,0,0,0.5))',
+        cursor: 'default',
+    },
 }));
 
-const ImageGalleryItem = ({ item, classes, lazyLoading, itemWidth, itemHeight, security, ...rest }) => {
+export const viewRecord = (history, url) => {
+    history.push(url);
+};
+
+const ImageGalleryItem = ({ item, withTitle, url, classes, lazyLoading, itemWidth, itemHeight, security, ...rest }) => {
     const internalClasses = useStyles();
+    const [restricted, setRestricted] = React.useState(false);
+    const [advisory, setAdvisory] = React.useState(false);
+    const history = useHistory();
+
+    const clickLink = !!url && url.length > 0 ? { onClick: () => viewRecord(history, url) } : {};
 
     return (
         <ImageListItem
+            id={`image-gallery-item-${item.rek_pid}`}
+            data-testid={`image-gallery-item-${item.rek_pid}`}
             classes={{
                 root: `${internalClasses.imageListItemRoot} ${classes?.imageListItem?.root ?? ''}`,
-                item: `${internalClasses.imageListItemItem} ${classes?.imageListItem?.item ?? ''}`,
+                item: `${internalClasses.imageListItemItem} ${classes?.imageListItem?.item ??
+                    ''} ${!!clickLink.onClick && internalClasses.imageListItemWithLink}`,
             }}
+            {...clickLink}
             {...rest}
         >
             <ImageGalleryItemImage
@@ -78,16 +105,10 @@ const ImageGalleryItem = ({ item, classes, lazyLoading, itemWidth, itemHeight, s
                 height={itemHeight}
                 loading={lazyLoading ? 'lazy' : 'eager'}
                 className={internalClasses.imageGalleryItemImage}
+                setRestricted={setRestricted}
+                setAdvisory={setAdvisory}
             />
-            {/* <ExternalLink
-                title={item.rek_title}
-                href={pathConfig.records.view(item.rek_pid)}
-                id={`gallery-item-${item.rek_pid}`}
-                data-testid={`gallery-item-${item.rek_pid}`}
-                target="_self"
-                openInNewIcon={false}
-            > */}
-            <Link to={pathConfig.records.view(item.rek_pid)}>
+            {withTitle && (
                 <ImageListItemBar
                     title={item.rek_title}
                     classes={{
@@ -97,14 +118,41 @@ const ImageGalleryItem = ({ item, classes, lazyLoading, itemWidth, itemHeight, s
                             ?.titleWrap ?? ''}`,
                     }}
                 />
-            </Link>
-            {/* </ExternalLink>*/}
+            )}
+            {restricted && (
+                <ImageListItemBar
+                    title={item.title}
+                    position="top"
+                    actionIcon={
+                        <Tooltip title={txt.components.imageGallery.tooltip.restricted}>
+                            <LockOutlinedIcon className={internalClasses.icon} size="small" />
+                        </Tooltip>
+                    }
+                    actionPosition="left"
+                    className={internalClasses.titleBar}
+                />
+            )}
+            {advisory && (
+                <ImageListItemBar
+                    title={item.title}
+                    position="top"
+                    actionIcon={
+                        <Tooltip title={txt.components.imageGallery.tooltip.advisory}>
+                            <ErrorOutlineOutlinedIcon className={internalClasses.icon} size="small" />
+                        </Tooltip>
+                    }
+                    actionPosition="right"
+                    className={internalClasses.titleBar}
+                />
+            )}
         </ImageListItem>
     );
 };
 
 ImageGalleryItem.propTypes = {
     item: PropTypes.object.isRequired,
+    withTitle: PropTypes.bool,
+    url: PropTypes.string,
     security: PropTypes.object,
     classes: PropTypes.shape({
         imageListItem: PropTypes.object,
@@ -116,6 +164,7 @@ ImageGalleryItem.propTypes = {
 };
 
 ImageGalleryItem.defaultProps = {
+    withTitle: true,
     classes: {},
     security: { isAdmin: false, isAuthor: false },
     lazyLoading: config.thumbnailImage.defaultLazyLoading,
