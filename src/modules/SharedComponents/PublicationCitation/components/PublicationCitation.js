@@ -87,35 +87,8 @@ export const styles = theme => ({
         display: 'inline-block',
         marginRight: 10,
         textAlign: 'center',
-        // backgroundColor: '#51247a',
         width: '100%',
         height: 'auto',
-        // maxHeight: imageConfig.thumbnailImage.defaultHeight,
-        // aspectRatio: '150/150',
-        // [theme.breakpoints.down('xs')]: {
-        //     width: 50,
-        //     height: 50,
-        // },
-        // [theme.breakpoints.up('xs')]: {
-        //     width: 75,
-        //     height: 75,
-        // },
-        // [theme.breakpoints.up(640)]: {
-        //     width: 90,
-        //     height: 90,
-        // },
-        // [theme.breakpoints.up('md')]: {
-        //     width: 100,
-        //     height: 100,
-        // },
-        // [theme.breakpoints.up('lg')]: {
-        //     width: 110,
-        //     height: 110,
-        // },
-        // [theme.breakpoints.up(1400)]: {
-        //     width: 120,
-        //     height: 120,
-        // },
     },
     citationContainer: {
         paddingLeft: '10px',

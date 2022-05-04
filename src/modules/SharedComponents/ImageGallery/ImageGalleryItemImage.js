@@ -21,7 +21,7 @@ const useStyles = makeStyles(() => ({
     },
 }));
 
-const ImageGalleryItemImage = ({ item, security, className, optional, setRestricted, setAdvisory, ...rest }) => {
+const ImageGalleryItemImage = ({ item, security, className = '', optional, setRestricted, setAdvisory, ...rest }) => {
     const classes = useStyles();
 
     const fileData = getThumbnail(item, security.isAdmin, security.isAuthor);
