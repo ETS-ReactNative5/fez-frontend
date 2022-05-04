@@ -56,6 +56,7 @@ const SearchRecords = ({
     );
     const queryParamsHash = hash(queryParams);
     const [searchParams, setSearchParams] = useState(queryParams);
+
     const {
         pageSizeChanged,
         pageChanged,
@@ -114,21 +115,13 @@ const SearchRecords = ({
     };
 
     const SelectRecordView = publicationsList => {
-        const displayLookup = queryParams.displayRecordsAs ?? publicationsListDefaultView.lookup;
+        const displayLookup = searchParams.displayRecordsAs ?? publicationsListDefaultView?.lookup ?? null;
 
         switch (displayLookup) {
-            case 'auto':
-            case 'standard':
-                return (
-                    <PublicationsList
-                        publicationsList={publicationsList}
-                        showAdminActions={isAdmin || isUnpublishedBufferPage}
-                        showUnpublishedBufferFields={isUnpublishedBufferPage}
-                        showImageThumbnails
-                    />
-                );
             case 'image-gallery':
                 return <ImageGallery publicationsList={publicationsList} security={{ isAdmin, isAuthor }} />;
+            case 'auto':
+            case 'standard':
             default:
                 return (
                     <PublicationsList
