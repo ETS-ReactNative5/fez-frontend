@@ -56,6 +56,7 @@ export const PublicationsList = ({
     const renderPublicationCitation = (index, publication) => {
         return (
             <PublicationCitation
+                showImageThumbnails={showImageThumbnails}
                 publicationsLoading={publicationsLoading}
                 key={index + publication.rek_title + publication.rek_date}
                 publication={publication}
@@ -64,7 +65,6 @@ export const PublicationsList = ({
                         ? customActions
                         : subsetCustomActions
                 }
-                showImageThumbnails={showImageThumbnails}
                 showSources={showSources}
                 showAdminActions={!!showAdminActions}
                 showDefaultActions={showDefaultActions}

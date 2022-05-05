@@ -20,9 +20,6 @@ import { RecordsSelectorContext } from 'context';
 import { userIsAdmin, userIsResearcher, userIsAuthor } from 'hooks';
 import { PUB_SEARCH_BULK_EXPORT_SIZE } from 'config/general';
 import { getAdvancedSearchFields, getQueryParams, useQueryStringParams, useSearchRecordsControls } from '../hooks';
-
-// import { getFileData } from 'modules/SharedComponents/Toolbox/AttachedFilesField/AttachedFiles';
-
 import hash from 'hash-sum';
 import ImageGallery from 'modules/SharedComponents/ImageGallery/ImageGallery';
 
@@ -113,10 +110,14 @@ const SearchRecords = ({
         ...txt.errorAlert,
         message: txt.errorAlert.message(locale.global.errorMessages.generic),
     };
+    const initSortingData = locale.components.sorting;
+    const displayLookup = searchParams.displayRecordsAs ?? publicationsListDefaultView?.lookup ?? null;
+    const newSortingData = initSortingData.sortBy.filter(option =>
+        option.exclude ? option.exclude.some(item => item !== displayLookup) : true,
+    );
+    const sortingData = { ...initSortingData, sortBy: newSortingData };
 
     const SelectRecordView = publicationsList => {
-        const displayLookup = searchParams.displayRecordsAs ?? publicationsListDefaultView?.lookup ?? null;
-
         switch (displayLookup) {
             case 'image-gallery':
                 return <ImageGallery publicationsList={publicationsList} security={{ isAdmin, isAuthor }} />;
@@ -129,6 +130,7 @@ const SearchRecords = ({
                         showAdminActions={isAdmin || isUnpublishedBufferPage}
                         showUnpublishedBufferFields={isUnpublishedBufferPage}
                         showImageThumbnails
+                        security={{ isAdmin, isAuthor }}
                     />
                 );
         }
@@ -210,6 +212,7 @@ const SearchRecords = ({
                                         sortBy={searchParams.sortBy}
                                         sortDirection={searchParams.sortDirection}
                                         displayRecordsAs={searchParams.displayRecordsAs}
+                                        sortingData={sortingData}
                                     />
                                 </Grid>
                                 <Grid item xs={12}>

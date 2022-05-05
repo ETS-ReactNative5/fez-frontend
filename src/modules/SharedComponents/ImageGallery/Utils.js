@@ -3,11 +3,11 @@ import { checkForThumbnail, getFileOpenAccessStatus, getSecurityAccess } from 'm
 import { isAdded } from 'helpers/datastreams';
 import { default as config } from 'config/imageGalleryConfig';
 
-export const isFileValid = ({ files: { blacklist } }, isAdmin = false) => dataStream => {
+export const isFileValid = ({ files: { blacklist } }) => dataStream => {
     const prefixMatch = !!dataStream.dsi_dsid.match(blacklist.namePrefixRegex);
     const suffixMatch = !!dataStream.dsi_dsid.match(blacklist.nameSuffixRegex);
 
-    return (!prefixMatch && !suffixMatch && isAdded(dataStream)) || isAdmin;
+    return !prefixMatch && !suffixMatch && isAdded(dataStream);
 };
 
 export const getThumbnailChecksums = (dataStreams, thumbnailFileName) => {
@@ -34,20 +34,22 @@ export const getWhiteListed = (publication, config) => {
                 type.viewType === publication.rek_display_type_lookup &&
                 (!!!type.subType || type.subType === publication.rek_subtype)
             );
-        }) ?? false;
+        }) ?? /* istanbul ignore next */ false;
+
     return isAllowed;
 };
 
 export const getFileData = (publication, isAdmin, isAuthor) => {
     const dataStreams = publication.fez_datastream_info;
     return !!dataStreams && dataStreams.length > 0
-        ? dataStreams.filter(isFileValid(viewRecordsConfig, isAdmin)).map(dataStream => {
+        ? dataStreams.filter(isFileValid(viewRecordsConfig)).map(dataStream => {
+              // isAdmin not passed to isFileValid because in this case all we care about is the thumbnail record
               const fileName = dataStream.dsi_dsid;
               const thumbnailFileName = checkForThumbnail(fileName, dataStreams);
               const openAccessStatus = getFileOpenAccessStatus(publication, dataStream, { isAdmin, isAuthor });
               const securityStatus = getSecurityAccess(dataStream, { isAdmin, isAuthor });
               const checksums = getThumbnailChecksums(dataStreams, thumbnailFileName);
-              const isWhiteListed = getWhiteListed(publication, config);
+              const isWhiteListed = getWhiteListed(publication, config) || isAdmin;
 
               return {
                   fileName,
