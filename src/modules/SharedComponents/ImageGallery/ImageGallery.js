@@ -12,7 +12,8 @@ import ImageGalleryItem from './ImageGalleryItem';
 const useStyles = makeStyles(
     theme => ({
         imageListItemRoot: {
-            [theme.breakpoints.down('xs')]: {},
+            // height: 'calc(100vw - (33px * 2)) !important',
+            [theme.breakpoints.up('sm')]: {},
             height: '100% !important',
             // },
         },
@@ -39,11 +40,11 @@ const ImageGallery = ({
     const theme = useTheme();
     const sm = useMediaQuery(theme.breakpoints.up('sm'));
     const md = useMediaQuery(theme.breakpoints.up('md'));
-    const lg = useMediaQuery(theme.breakpoints.up('lg'));
+    // const lg = useMediaQuery(theme.breakpoints.up('lg'));
     // const xl = useMediaQuery(theme.breakpoints.up('xl'));
 
     // eslint-disable-next-line no-nested-ternary
-    const cols = itemsPerRow ?? lg ? 4 : md ? 3 : sm ? 2 : 1;
+    const cols = itemsPerRow ?? md ? 4 : sm ? 3 : 2;
 
     return (
         <ImageList
