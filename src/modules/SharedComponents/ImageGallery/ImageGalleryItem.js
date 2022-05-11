@@ -18,17 +18,7 @@ import { default as config } from 'config/imageGalleryConfig';
 import ImageGalleryItemImage from './ImageGalleryItemImage';
 
 const useStyles = makeStyles(theme => ({
-    imageListItemRoot: {
-        [theme.breakpoints.down('md')]: {
-            width: '25% !important',
-        },
-        [theme.breakpoints.down('sm')]: {
-            width: '33% !important',
-        },
-        [theme.breakpoints.down('xs')]: {
-            width: '50% !important',
-        },
-    },
+    imageListItemRoot: {},
     imageListItemItem: {
         backgroundColor: '#51247a',
     },
@@ -42,7 +32,10 @@ const useStyles = makeStyles(theme => ({
         padding: '10px',
     },
     imageListItemBarTitle: {
-        fontSize: '12px',
+        fontSize: '14px',
+        [theme.breakpoints.up('sm')]: {
+            fontSize: '12px',
+        },
         lineHeight: '16px',
         display: '-webkit-box',
         lineClamp: 3,
